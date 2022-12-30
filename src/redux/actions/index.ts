@@ -1,1 +1,1 @@
-export { fillBoardFromJson } from './drawerActions';
+export { fillBoardFromJson, saveBoardToJson } from './drawerActions';

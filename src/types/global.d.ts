@@ -1,7 +1,9 @@
 type T = any;
 
 interface IDrawerState {
-  drawer: T;
+  drawer: IShapeDrawer[];
+  error: string;
+  loading: boolean;
 }
 
 interface IReducer {
@@ -10,7 +12,7 @@ interface IReducer {
 }
 
 interface IShape {
-  type: 'circle' | 'square' | 'rectangle';
+  type: 'circle' | 'square' | 'rectangle' | 'triangle';
 }
 
 interface ObjectType {

@@ -1,24 +1,14 @@
-import { useMemo } from 'react';
-import { useWindowDimensions } from '../../redux/hook';
+import { SHAPE_SIZE } from '../../utils/constants';
 
 const Drawer: React.FC<IShapeDrawer> = ({ type, title, x, y, color }) => {
-  const { width, height, isChange } = useWindowDimensions();
-
-  const position = useMemo(
-    () => ({
-      top: y,
-      right: x,
-    }),
-    [width, height, x, y],
-  );
-
   return (
     <div
       className={`shape ${type}`}
       style={{
         backgroundColor: color,
         position: 'absolute',
-        ...position,
+        top: y - SHAPE_SIZE.height,
+        left: x - SHAPE_SIZE.width,
       }}
     >
       <p className="draw_title">{title}</p>

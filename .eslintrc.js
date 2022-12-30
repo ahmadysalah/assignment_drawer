@@ -55,5 +55,6 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 0,
     'import/prefer-default-export': 0,
     'react/no-array-index-key': 0,
+    'consistent-return': 0,
   },
 };

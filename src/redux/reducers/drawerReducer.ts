@@ -2,6 +2,8 @@ import { drawerConstants } from '../constants';
 
 const initialState: IDrawerState = {
   drawer: [],
+  error: '',
+  loading: false,
 };
 
 const DrawerReducers = (
@@ -15,11 +17,28 @@ const DrawerReducers = (
         drawer: action.payload,
       };
 
-    case drawerConstants.addShape:
+    case drawerConstants.addShape: {
       return {
         ...state,
         drawer: [...state.drawer, action.payload],
       };
+    }
+
+    case drawerConstants.clearBoard: {
+      return {
+        ...state,
+        drawer: [],
+        error: '',
+        loading: false,
+      };
+    }
+
+    case drawerConstants.error: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
 
     default:
       return state;

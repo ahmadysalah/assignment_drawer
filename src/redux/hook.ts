@@ -34,7 +34,6 @@ export const getWindowDimensions = (): ObjectType => {
 };
 
 export const useWindowDimensions = (): ObjectType => {
-  const [isChange, setIsChange] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );
@@ -47,7 +46,6 @@ export const useWindowDimensions = (): ObjectType => {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
-      setIsChange(true);
     }
 
     window.addEventListener('resize', handleResize);
@@ -57,7 +55,6 @@ export const useWindowDimensions = (): ObjectType => {
   return {
     width: windowDimensions.width,
     height: windowDimensions.height,
-    isChange,
     isMobile,
   };
 };

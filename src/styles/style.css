@@ -4,21 +4,22 @@
   margin: 0;
 }
 
-.app{
+.app {
   height: 100vh;
   overflow: hidden;
 }
 
 .app_header {
   background-color: #222;
-  padding:1rem;
+  padding: 1rem;
   color: white;
 }
 
 .app_main {
-  height: 100%;
+  height: 92vh;
   display: flex;
   flex-wrap: wrap;
+  overflow: scroll;
 }
 
 .main_drawer {
@@ -26,17 +27,26 @@
   color: white;
   width: 20rem;
   padding: 1rem;
-  overflow: scroll;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  overflow: scroll;
 }
 
-
-.main_board {
-  background-color: #eee;
-  padding: 1rem;
+.board {
   flex-grow: 1;
 }
+
+.container_board {
+  background-color: rgb(223, 223, 223);
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
 .shape {
   width: 10rem;
   height: 8rem;
@@ -48,12 +58,20 @@
   overflow: scroll;
   border: 1px solid #222;
 }
- 
-.draw_title{
+
+.circle {
+  border-radius: 50%;
+}
+
+.square {
+  border-radius: 12px;
+}
+
+.draw_title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #222;
-  width:  100%;
+  width: 100%;
   text-align: center;
   padding: 1rem;
   max-height: 95%;
@@ -70,13 +88,15 @@
   text-align: center;
   padding: 1rem;
 }
-.draw_title_raper{
+
+.draw_title_raper {
   width: 100%;
   height: 95%;
-   display: flex;
-   flex-direction: row-reverse;
-   justify-content: space-between;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
+
 .draw_color_wrapper {
   display: flex;
   flex-direction: column;
@@ -85,7 +105,8 @@
   width: 100%;
   padding: 1rem;
 }
-.draw_color_wrapper{
+
+.draw_color_wrapper {
   width: auto;
   padding: 0;
 }
@@ -95,14 +116,43 @@
   height: 1rem;
   cursor: pointer;
 }
-@media (max-width: 768px) {
-   .app_main {
-    flex-direction: column-reverse
-   }
 
-    .main_drawer {
-      width: 100%;
-      height: 10rem;
-      overflow: scroll;
-    }
+.error {
+  padding: .7rem;
+  width: 20rem;
+  margin: 0 auto;
+  background-color: rgb(205, 205, 205);
+  color: red;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.btn_rapper {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  padding: .3rem 1rem;
+  color: rgb(57, 57, 241);
+  cursor: pointer;
+  border: 1px solid blue;
+}
+
+@media (max-width: 768px) {
+  .app_main {
+    flex-direction: column-reverse;
+  }
+
+  .container_board {
+    height: auto;
+  }
+
+  .main_drawer {
+    width: 100%;
+    height: 10rem;
+    flex-direction: row;
+    overflow: scroll;
+  }
 }

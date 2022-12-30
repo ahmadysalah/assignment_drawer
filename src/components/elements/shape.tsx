@@ -7,13 +7,17 @@ const Shape: React.FC<IShape> = ({ type }) => {
   const { onDragEnd } = useDrag(type);
   const { width } = useWindowDimensions();
   const shapeRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [title, setTitle] = useState<string>();
   const [color, setColor] = useState<string>();
   const [isFocus, setIsFocused] = useState<boolean>(false);
 
-  const handleClickRectangle = useCallback(() => {
+  const handleClickShape = useCallback(() => {
     setIsFocused(true);
-  }, []);
+    setTimeout(() => {
+      if (inputRef.current) inputRef.current.focus();
+    });
+  }, [inputRef]);
 
   const handleDragEnd = useCallback(
     (element: React.DragEvent<HTMLDivElement>) => {
@@ -28,7 +32,6 @@ const Shape: React.FC<IShape> = ({ type }) => {
         title,
         color,
       });
-      shapeRef.current?.blur();
     },
     [onDragEnd, type, title, color, shapeRef, width],
   );
@@ -36,7 +39,7 @@ const Shape: React.FC<IShape> = ({ type }) => {
     <div
       ref={shapeRef}
       className={`shape ${type}`}
-      onClick={handleClickRectangle}
+      onClick={handleClickShape}
       onBlur={() => setIsFocused(false)}
       style={{
         backgroundColor: color,
@@ -50,6 +53,7 @@ const Shape: React.FC<IShape> = ({ type }) => {
       ) : (
         <div className="draw_title_raper">
           <textarea
+            ref={inputRef}
             placeholder="Type shape title"
             onChange={e => setTitle(e.target.value)}
             value={title}
