@@ -2,25 +2,28 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from './store';
 import { drawerConstants } from './constants';
 
-export const useDrag = (type: string): ObjectType => {
+export const useDrag = (): ObjectType => {
   const dispatch = useAppDispatch();
   const onDragEnd = useCallback(
     ({
-      element,
+      x,
+      y,
       title,
       color,
+      type,
     }: {
-      element: React.DragEvent;
+      x: number;
+      y: number;
       type: string;
       title: string;
       color: string;
     }) => {
       dispatch({
         type: drawerConstants.addShape,
-        payload: { type, x: element.clientX, y: element.clientY, title, color },
+        payload: { type, x, y, title, color },
       });
     },
-    [dispatch, type],
+    [dispatch],
   );
   return { onDragEnd };
 };

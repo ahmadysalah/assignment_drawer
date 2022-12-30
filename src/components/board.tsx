@@ -4,9 +4,12 @@ import { useAppSelector } from '../redux/store';
 import { drawerConstants } from '../redux/constants';
 import { fillBoardFromJson, saveBoardToJson } from '../redux/actions';
 import { Drawer } from './elements';
+import { useDrag } from '../redux/hook';
 
 const Board: React.FC = () => {
   const { drawer, error } = useAppSelector();
+  const { onDragEnd } = useDrag();
+
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClearBoard = useCallback(
@@ -18,11 +21,35 @@ const Board: React.FC = () => {
     [],
   );
 
+  const handleDropElement = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      const type = e.dataTransfer.getData('type');
+      const color = e.dataTransfer.getData('color');
+      const title = e.dataTransfer.getData('title');
+      const x = e.clientX;
+      const y = e.clientY;
+
+      onDragEnd({
+        type,
+        color,
+        title,
+        x,
+        y,
+      });
+    },
+
+    [],
+  );
+
   const handleOpenFile = useCallback(() => {
     if (inputRef.current) inputRef.current.click();
   }, [inputRef]);
   return (
-    <div className="container_board">
+    <div
+      className="container_board"
+      onDragOver={e => e.preventDefault()}
+      onDrop={handleDropElement}
+    >
       <div>
         {error && <p className="error">{error}</p>}
         <button
