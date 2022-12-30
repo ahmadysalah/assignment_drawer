@@ -1,11 +1,8 @@
 import { useCallback, useRef, useState } from 'react';
-import { useDrag, useWindowDimensions } from '../../redux/hook';
 
 const colors = ['red', 'green', 'yellow', 'purple', 'orange', 'black'];
 
 const Shape: React.FC<IShape> = ({ type }) => {
-  const { onDragEnd } = useDrag(type);
-  const { width } = useWindowDimensions();
   const shapeRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [title, setTitle] = useState<string>();
@@ -19,33 +16,33 @@ const Shape: React.FC<IShape> = ({ type }) => {
     });
   }, [inputRef]);
 
-  const handleDragEnd = useCallback(
-    (element: React.DragEvent<HTMLDivElement>) => {
-      const isInBoard = width - width * 0.3 >= element.clientX;
-      if (!isInBoard) return;
-      setIsFocused(false);
-      setTitle('');
-      setColor('');
-      onDragEnd({
-        element,
-        type,
-        title,
-        color,
-      });
+  const onDragStart = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.dataTransfer.setData('type', type);
+      if (title) e.dataTransfer.setData('title', title);
+      if (color) e.dataTransfer.setData('color', color);
     },
-    [onDragEnd, type, title, color, shapeRef, width],
+    [color, title, type],
   );
+
+  const handleDragEnd = useCallback(() => {
+    setIsFocused(false);
+    setTitle('');
+    setColor('');
+  }, [type, title, color, shapeRef]);
   return (
     <div
       ref={shapeRef}
       className={`shape ${type}`}
       onClick={handleClickShape}
-      onBlur={() => setIsFocused(false)}
+      id={type}
+      onDoubleClick={() => setIsFocused(false)}
       style={{
         backgroundColor: color,
       }}
       draggable={!!title}
       aria-hidden
+      onDragStart={onDragStart}
       onDragEnd={handleDragEnd}
     >
       {!isFocus ? (
@@ -70,7 +67,10 @@ const Shape: React.FC<IShape> = ({ type }) => {
                 style={{
                   backgroundColor,
                 }}
-                onClick={() => setColor(backgroundColor)}
+                onClick={() => {
+                  setColor(backgroundColor);
+                  setIsFocused(false);
+                }}
               >
                 <span className="draw_check" />
               </button>

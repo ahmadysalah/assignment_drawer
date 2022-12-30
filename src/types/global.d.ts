@@ -25,4 +25,6 @@ interface IShapeDrawer {
   color: string;
   x: number;
   y: number;
+  screenX: number;
+  screenY: number;
 }
