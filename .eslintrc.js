@@ -1,4 +1,3 @@
-
 module.exports = {
   extends: [
     'airbnb',
@@ -55,5 +54,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     'import/prefer-default-export': 0,
+    'react/no-array-index-key': 0,
+    'consistent-return': 0,
   },
 };
