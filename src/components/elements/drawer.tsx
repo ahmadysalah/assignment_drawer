@@ -5,6 +5,7 @@ export interface IShapeDrawerComponent extends IShapeDrawer {
   screenW: number;
   screenH: number;
   isMobile: boolean;
+  onClick: () => void;
 }
 
 const Drawer: React.FC<IShapeDrawerComponent> = ({
@@ -18,6 +19,7 @@ const Drawer: React.FC<IShapeDrawerComponent> = ({
   screenW,
   screenH,
   isMobile,
+  onClick,
 }) => {
   const isChangePosition = useMemo(
     () => screenX !== screenW || screenY !== screenH,
@@ -39,7 +41,7 @@ const Drawer: React.FC<IShapeDrawerComponent> = ({
 
   return (
     <div
-      className={`shape ${type}`}
+      className={`shape ${type} drawer`}
       style={{
         backgroundColor: color,
         position: 'absolute',
@@ -54,6 +56,8 @@ const Drawer: React.FC<IShapeDrawerComponent> = ({
           ? Math.max(newX - SHAPE_SIZE.width / 2, screenW * 0.3)
           : Math.abs(newX - SHAPE_SIZE.width / 2),
       }}
+      onClick={onClick}
+      aria-hidden
     >
       <p className="draw_title">{title}</p>
     </div>

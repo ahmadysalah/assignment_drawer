@@ -2,6 +2,7 @@ type T = any;
 
 interface IDrawerState {
   drawer: IShapeDrawer[];
+  linesElements: IShapeLine[];
   error: string;
   loading: boolean;
 }
@@ -27,4 +28,12 @@ interface IShapeDrawer {
   y: number;
   screenX: number;
   screenY: number;
+}
+
+interface IShapeLine {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  roughElement: ObjectType;
 }

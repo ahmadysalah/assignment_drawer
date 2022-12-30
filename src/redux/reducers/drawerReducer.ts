@@ -2,6 +2,7 @@ import { drawerConstants } from '../constants';
 
 const initialState: IDrawerState = {
   drawer: [],
+  linesElements: [],
   error: '',
   loading: false,
 };
@@ -13,8 +14,7 @@ const DrawerReducers = (
   switch (action.type) {
     case drawerConstants.fillBoard:
       return {
-        ...state,
-        drawer: action.payload,
+        ...action.payload,
       };
 
     case drawerConstants.addShape: {
@@ -28,8 +28,39 @@ const DrawerReducers = (
       return {
         ...state,
         drawer: [],
+        linesElements: [],
         error: '',
         loading: false,
+      };
+    }
+
+    case drawerConstants.loading: {
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    }
+
+    case drawerConstants.dropShape: {
+      const newDrawer = [...state.drawer];
+      newDrawer.splice(action.payload, 1);
+      return {
+        ...state,
+        drawer: newDrawer,
+      };
+    }
+
+    case drawerConstants.addLine: {
+      return {
+        ...state,
+        linesElements: [...state.linesElements, action.payload],
+      };
+    }
+
+    case drawerConstants.fillLines: {
+      return {
+        ...state,
+        linesElements: action.payload,
       };
     }
 

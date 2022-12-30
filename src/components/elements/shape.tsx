@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-const colors = ['red', 'green', 'yellow', 'purple', 'orange', 'black'];
+const colors = ['red', 'green', 'yellow', 'purple', 'orange'];
 
 const Shape: React.FC<IShape> = ({ type }) => {
   const shapeRef = useRef<HTMLDivElement>(null);
@@ -18,6 +18,7 @@ const Shape: React.FC<IShape> = ({ type }) => {
 
   const onDragStart = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
+      setIsFocused(false);
       e.dataTransfer.setData('type', type);
       if (title) e.dataTransfer.setData('title', title);
       if (color) e.dataTransfer.setData('color', color);
@@ -26,10 +27,10 @@ const Shape: React.FC<IShape> = ({ type }) => {
   );
 
   const handleDragEnd = useCallback(() => {
-    setIsFocused(false);
     setTitle('');
     setColor('');
   }, [type, title, color, shapeRef]);
+
   return (
     <div
       ref={shapeRef}
@@ -48,16 +49,19 @@ const Shape: React.FC<IShape> = ({ type }) => {
       {!isFocus ? (
         <p className="draw_title">{title}</p>
       ) : (
-        <div className="draw_title_raper">
-          <textarea
-            ref={inputRef}
-            placeholder="Type shape title"
-            onChange={e => setTitle(e.target.value)}
-            value={title}
-            hidden={!isFocus}
-            className="draw_input"
-            rows={5}
-          />
+        <>
+          <div className="draw_title_raper">
+            <textarea
+              ref={inputRef}
+              placeholder="Type shape title"
+              onChange={e => setTitle(e.target.value)}
+              value={title}
+              hidden={!isFocus}
+              className="draw_input"
+              rows={5}
+            />
+          </div>
+
           <div className="draw_color_wrapper">
             {colors.map((backgroundColor, index) => (
               <button
@@ -76,7 +80,7 @@ const Shape: React.FC<IShape> = ({ type }) => {
               </button>
             ))}
           </div>
-        </div>
+        </>
       )}
     </div>
   );

@@ -25,7 +25,7 @@ export const fillBoardFromJson =
         return setErrorMessage(dispatch, 'Wrong file type');
       const json = atob(base64.split(',')[1]);
       if (typeof json === 'string') {
-        const board = JSON.parse(json);
+        const { board, linesElements } = JSON.parse(json);
         if (
           !Array.isArray(board) ||
           board.some(
@@ -33,20 +33,23 @@ export const fillBoardFromJson =
           )
         )
           return setErrorMessage(dispatch, 'Wrong file type');
-        dispatch({ type: drawerConstants.fillBoard, payload: board });
+        dispatch({
+          type: drawerConstants.fillBoard,
+          payload: { drawer: board, linesElements },
+        });
         return setErrorMessage(dispatch, '');
       }
     };
   };
 
 export const saveBoardToJson =
-  (board: IShapeDrawer[]) =>
+  (board: IShapeDrawer[], linesElements: IShapeLine[]) =>
   async (dispatch: Dispatch<T>): Promise<T> => {
     try {
       // Save the board to a json file
       if (!board.length) return setErrorMessage(dispatch, 'No shapes to save');
       const element = document.createElement('a');
-      const jsonFile = new Blob([JSON.stringify(board)], {
+      const jsonFile = new Blob([JSON.stringify({ board, linesElements })], {
         type: 'text/plain',
       });
       element.href = URL.createObjectURL(jsonFile);
