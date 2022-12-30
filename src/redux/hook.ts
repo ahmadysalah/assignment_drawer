@@ -5,22 +5,10 @@ import { drawerConstants } from './constants';
 export const useDrag = (): ObjectType => {
   const dispatch = useAppDispatch();
   const onDragEnd = useCallback(
-    ({
-      x,
-      y,
-      title,
-      color,
-      type,
-    }: {
-      x: number;
-      y: number;
-      type: string;
-      title: string;
-      color: string;
-    }) => {
+    (payload: ObjectType) => {
       dispatch({
         type: drawerConstants.addShape,
-        payload: { type, x, y, title, color },
+        payload,
       });
     },
     [dispatch],
@@ -36,7 +24,11 @@ export const getWindowDimensions = (): ObjectType => {
   };
 };
 
-export const useWindowDimensions = (): ObjectType => {
+export const useWindowDimensions = (): {
+  width: number;
+  height: number;
+  isMobile: boolean;
+} => {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );

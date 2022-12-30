@@ -4,9 +4,10 @@ import { useAppSelector } from '../redux/store';
 import { drawerConstants } from '../redux/constants';
 import { fillBoardFromJson, saveBoardToJson } from '../redux/actions';
 import { Drawer } from './elements';
-import { useDrag } from '../redux/hook';
+import { useDrag, useWindowDimensions } from '../redux/hook';
 
 const Board: React.FC = () => {
+  const { width, height, isMobile } = useWindowDimensions();
   const { drawer, error } = useAppSelector();
   const { onDragEnd } = useDrag();
 
@@ -35,15 +36,17 @@ const Board: React.FC = () => {
         title,
         x,
         y,
+        screenX: width,
+        screenY: height,
       });
     },
 
-    [],
+    [width, height],
   );
-
   const handleOpenFile = useCallback(() => {
     if (inputRef.current) inputRef.current.click();
   }, [inputRef]);
+
   return (
     <div
       className="container_board"
@@ -62,7 +65,15 @@ const Board: React.FC = () => {
       </div>
       <div className="board">
         {drawer?.map((item: T, index: number) => {
-          return <Drawer key={index.toString().concat('_el')} {...item} />;
+          return (
+            <Drawer
+              key={index.toString().concat('_el')}
+              {...item}
+              screenW={width}
+              screenH={height}
+              isMobile={isMobile}
+            />
+          );
         })}
       </div>
       <div className="btn_rapper">
